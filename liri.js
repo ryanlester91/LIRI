@@ -8,7 +8,7 @@ var keys = require("./keys.js");
 var moment = require('moment');
 moment().format();
 // =========================================================================================================================================
-var request = require("request");
+//var request = require("request");
 
 // Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
 var axios = require("axios");
@@ -24,36 +24,42 @@ var command = process.argv[2];
 var input = process.argv[3];
 var array = [];
   
-//Loop through and join name of arguments after file name
+//Loop through and join name of arguments after file name (ERROR located at the '.length' part)
 for (var i = 3; i < input.length; i++) {
     array.push(input[i]);
-    array.push("+")
+    array.push("+");
 }        
 array.splice(-1); //Get rid of last plus sign, if left errors caused
 var finalSearch = array.join(""); //Joining together to form string
 
-// Switch for commands for all functions
-var ask = function (commands, data){
-    switch(commands) {
-        case "concert-this":
-            concertThis(data);
+// Switch for commands for all functions (an "...is not defined" error)
+var ask = function (command){
+    switch(command) {
+        case 'concert-this':
+            concertThis();
             break;
-        case "movie-this" :
-            movieThis(data);
+        case 'movie-this' :
+            movieThis();
             break;    
         case 'spotify-this-song':
-            spotifyThis(data); 
+            spotifyThis(); 
             break;
         case 'do-what-it-says':
             doWhatItSays(); 
             break;
+            
+        // instructions for a first-time user lurking around on the command line
         default:
-        console.log("Invalid command. Please try again");
+        console.log("\n" + "type any command after 'node liri.js': " + "\n" +
+        "spotify-this-song 'any song title'" + "\n" +
+        "movie-this 'any movie title' " + "\n" +
+        "do-what-it-says " + "\n" +
+        "Use quotes for multiword titles!");
     }
-  };
+}
   
   // asigns args to ask for switch case
-  ask (command, input);
+  ask (command);
 
 
 
@@ -86,7 +92,7 @@ function concertThis() {
     );   
 
     // node liri.js spotify-this-song
-    function spotifyThis() {}
+    function spotifyThis() {
         
         if (finalSearch === "") {
             finalSearch = "gogglebox+banana+splits"
@@ -111,6 +117,7 @@ function concertThis() {
     
         });
     }
+  
     
     // node liri.js movie-this
 function movieThis () {
@@ -138,7 +145,7 @@ axios.get("http://www.omdbapi.com/?t= " + finalSearch + " &y=&plot=short&apikey=
     dataLog(currData);
     }
     );
-}
+}}
 
 
 spotifyThis(); 
@@ -159,9 +166,10 @@ function doWhatItSays()  {
         var dataArr = data.split(",");
       
         finalSearch = dataArr[1];
-        spotifyThis()
+        spotifyThis();
       });
 }
+doWhatItSays();
 
 //Input Logger - see log.txt
 
@@ -191,5 +199,5 @@ function dataLog(data) {
         }
       
       });
+    }
   }
-}
