@@ -51,6 +51,7 @@ var ask = function (command, input){
         // instructions for a first-time user lurking around on the command line
         default:
         console.log("\n" + "type any command after 'node liri.js': " + "\n" +
+        "concert-this 'any artist'" + "\n" +
         "spotify-this-song 'any song title'" + "\n" +
         "movie-this 'any movie title' " + "\n" +
         "do-what-it-says " + "\n" +
@@ -94,9 +95,9 @@ function concertThis(input) {
     // node liri.js spotify-this-song
     function spotifyThis(input) {
         
-        //if (finalSearch === "") {
-            //finalSearch = "gogglebox+banana+splits"
-        //}
+        /*if (input === undefined || null) {
+            input = "gogglebox+banana+splits"
+        }*/
         spotify.search({
             type: 'artist,track',
             query: input
@@ -123,9 +124,9 @@ function concertThis(input) {
 function movieThis (input) {
 
   //If the user does not type in a movie, the program defaults to data for the movie 'Cool as Ice'
-  //if (finalSearch === undefined || null) {
-   // finalSearch = "cool+as+ice";
-  //}
+  /*if (input === undefined || null) {
+  input = "cool+as+ice";
+  }*/
 
 // Then run a request with axios to the OMDB API with the movie specified
 axios.get("http://www.omdbapi.com/?t= " + input + " &y=&plot=short&apikey=trilogy").then(
